@@ -49,7 +49,7 @@ class Property extends React.Component{
                 <form onSubmit={(event) => this.addProperty(event)}>
                     <input type="text" name="title" value={title} onChange={this.handleChange} placeholder="Title"/><br/><br/>
                     <textarea type="text" name="content" value={content} onChange={this.handleChange} placeholder="Content"/><br/><br/>
-                    {/* <textarea  value={content} name="content" onChange={this.handlechange} placeholder="Content"></textarea><br/><br/> */}
+                    <textarea  value={content} name="content" onChange={this.handlechange} placeholder="Content"></textarea><br/><br/>
                     <input type="submit" value="submit"/>
                  </form>       
             </div>  
