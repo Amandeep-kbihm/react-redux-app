@@ -13,7 +13,8 @@ import About from './route/About'
 import Property from './components/Property'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas'
-import Propertyform from './components/Propertyform'
+import Propertyupdate from './components/Propertyupdate'
+import Propertyadd from './components/Propertyadd'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(todoApp, applyMiddleware(logger, sagaMiddleware))
@@ -27,7 +28,8 @@ class App extends Component {
           <Test/>
             <Route exact path="/" component={Todos}/>
             <Route path="/property" component={Property}/>
-            <Route path="/form/:id/edit"  render={(props) => <Propertyform {...props} />}/>
+            <Route path="/add" component={Propertyadd}/>
+            <Route path="/form/:id/edit"  render={(props) => <Propertyupdate {...props} />}/>
         </Provider>
       </Router>
     );

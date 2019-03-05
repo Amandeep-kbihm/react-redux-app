@@ -20,10 +20,7 @@ import axios from 'axios';
 
 const apiUrl = 'http://localhost:5000/property';
 
-function fetchProperty () {
-    return axios.get(apiUrl)
-}
-
+// Add data
 function addProperty(data){
     var headers = {
         'Content-Type': 'application/json',
@@ -36,11 +33,31 @@ function addProperty(data){
       throw(error);
     });
 }
+export function* addPropertyData(id){
+    const resp = yield call(addProperty,id)
+    if(resp.data.status) {
+        yield put({ type: ADD_PROPERTY_SUCCESS, data: resp.data })
+    } else {
+        yield put({ type: ADD_PROPERTY_FAILED, error: 'Something went wrong'})
+    }  
+}
 
+// Single fetch
 function singlefetchProperty(getId){
     return axios.get('http://localhost:5000/property/'+getId)
 }
+export function* fetchsinglepropertyData(id){
+    const getId = id.id
+    const resp = yield call(singlefetchProperty,getId)
+   if(resp.data.status){
+        yield put ({ type: SINGLE_FETCH_PROPERTY_SUCCESS, data: resp.data})
+    }
+    else{
+        yield put ({ type: SINGLE_FETCH_PROPERTY_FAILED, error: 'somthing went wrong'})
+    }
+}
 
+// update data
 function updateProperty(id,data){
     const getId = id.id
     var headers = {
@@ -54,53 +71,20 @@ function updateProperty(id,data){
       throw(error);
     });
 }
-
-function deleteProperty(id){
-    const getId = id.id
-    return axios.delete('http://localhost:5000/property/'+getId)
-}
-
-export function* addPropertyData(id){
-    const resp = yield call(addProperty,id)
-    if(resp.data.status) {
-        yield put({ type: ADD_PROPERTY_SUCCESS, data: resp.data })
-    } else {
-        yield put({ type: ADD_PROPERTY_FAILED, error: 'Something went wrong'})
-    }  
-}
-
 export function* updatePropertyData(id,data){
     const resp = yield call(updateProperty,id,id.data)
-    //console.log(resp)
-   // console.log(resp.status)
-    if(resp.data.status) {
-        yield put({ type: UPDATE_PROPERTY_SUCCESS, data: resp.data })
+    if(resp.status) {
+        yield put({ type: UPDATE_PROPERTY_SUCCESS, id:resp.id, data: resp.data })
     } else {
         yield put({ type: UPDATE_PROPERTY_FAILED, error: 'Something went wrong'})
     }  
 }
 
-// Our worker Saga: will perform the async increment task
-export function* incrementAsync() {   
-    const resp = yield call(fetchProperty)
-    if(resp.data.status) {
-        yield put({ type: FETCH_PROPERTY_SUCCESS, data: resp.data })
-    } else {
-        yield put({ type: FETCH_PROPERTY_FAILED, error: 'Something went wrong'})
-    }  
-}
-
-export function* fetchsinglepropertyData(id){
+// delete data
+function deleteProperty(id){
     const getId = id.id
-    const resp = yield call(singlefetchProperty,getId)
-   if(resp.data.status){
-        yield put ({ type: SINGLE_FETCH_PROPERTY_SUCCESS, data: resp.data})
-    }
-    else{
-        yield put ({ type: SINGLE_FETCH_PROPERTY_FAILED, error: 'somthing went wrong'})
-    }
+    return axios.delete('http://localhost:5000/property/'+getId)
 }
-
 export function* deletePropertyData(id){
     const resp = yield call(deleteProperty,id)
     //console.log(resp)
@@ -109,6 +93,19 @@ export function* deletePropertyData(id){
         yield put({ type: DELETE_PROPERTY_SUCCESS, data: resp.data })
     } else {
         yield put({ type: DELETE_PROPERTY_FAILED, error: 'Something went wrong'})
+    }  
+}
+// fetah all
+
+function fetchProperty () {
+    return axios.get(apiUrl)
+}
+export function* incrementAsync() {   
+    const resp = yield call(fetchProperty)
+    if(resp.data.status) {
+        yield put({ type: FETCH_PROPERTY_SUCCESS, data: resp.data })
+    } else {
+        yield put({ type: FETCH_PROPERTY_FAILED, error: 'Something went wrong'})
     }  
 }
 

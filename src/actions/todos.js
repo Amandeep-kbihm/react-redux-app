@@ -20,6 +20,7 @@ export const UPDATE_PROPERTY_FAILED = 'UPDATE_PROPERTY_FAILED'
 export const DELETE_PROPERTY = 'DELETE_PROPERTY'
 export const DELETE_PROPERTY_SUCCESS = 'DELETE_PROPERTY_SUCCESS'
 export const DELETE_PROPERTY_FAILED = 'DELETE_PROPERTY_FAILED'
+export const SET_UPDATES = "SET_UPDATES"
 export function addTodo(text) {
     return { type: ADD_TODO, text }
 }
@@ -68,5 +69,12 @@ export const deleteProperty = (id) => {
   return {
     type: DELETE_PROPERTY,
     id
+  }
+}
+
+export const setUpdated = (data) => {
+  return {
+    type: SET_UPDATES,
+    data
   }
 }
